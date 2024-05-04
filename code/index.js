@@ -47,6 +47,29 @@ decryptButton.onclick = () => {
 
 }
 
+// TODO: cambio para la ejecucion de la prueba de recuperacion
+// almacenar el resultado en el local storage cada vez que el "resultArea" cambie
+resultArea.addEventListener("DOMSubtreeModified", () => {
+    
+        let textResult = document.querySelector(".textResult");
+        if (textResult) {
+            persistValueInLocalStorage(textResult.value);
+        }
+
+})
+
+// cuando el documento se cargue, se verifica si existe un resultado almacenado en el local storage y se muestra en el "resultArea"
+document.addEventListener("DOMContentLoaded", () => {
+    
+        let resultado = localStorage.getItem("resultado");
+        if (resultado) {
+            resultArea.innerHTML = `<textarea class='textResult' disabled>${resultado}</textarea>${htmlButton}`;
+        } else {
+            resultArea.innerHTML = messageNotFound;
+        }
+    
+})
+
 function copy() {
 
     const textResult = document.querySelector(".textResult");
@@ -110,4 +133,9 @@ function desencriptarTexto(texto) {
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
+}
+
+// TODO: cambio para la ejecucion de la prueba de recuperacion
+function persistValueInLocalStorage(texto) {
+    localStorage.setItem("resultado", texto);
 }
